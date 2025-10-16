@@ -18,6 +18,13 @@ func main() {
 	if err := db.Init(dbFile); err != nil {
 		log.Fatalf("Ошибка инициализации базы данных: %v", err)
 	}
+
+	defer func() {
+		if err := db.GetDB().Close(); err != nil {
+			log.Printf("Ошибка при закрытии базы данных: %v", err)
+		}
+	}()
+
 	log.Println("База данных успешно инициализирована.")
 
 	// Иницилизируем Api

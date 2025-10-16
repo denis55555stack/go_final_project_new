@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 
@@ -84,10 +85,9 @@ func GetTask(id int) (*Task, error) {
 
 	query := `SELECT id, date, title, comment, repeat FROM scheduler WHERE id = ?`
 	task := &Task{}
-
 	err = db.QueryRow(query, id).Scan(&task.ID, &task.Date, &task.Title, &task.Comment, &task.Repeat)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			log.Printf("задача с id %d не найдена", id)
 			return nil, fmt.Errorf("задача с id %d не найдена", id)
 		}

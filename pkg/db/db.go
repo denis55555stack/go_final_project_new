@@ -31,7 +31,7 @@ func Init(dbFile string) error {
 		log.Println("файла базы данных не существует, будет создан.")
 		install = true
 	} else if err != nil {
-		return fmt.Errorf("ошибка проверки файла %v", err)
+		return fmt.Errorf("ошибка проверки файла %w", err)
 	}
 
 	var err error
